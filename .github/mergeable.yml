@@ -106,6 +106,32 @@
         regex_flag: m
         message: When NA / NOK is selected, Use NOK or NA only with description
 
+.pr-dev-checklist-validator-description: &pr-dev-checklist-validator-description
+  do: description
+  and:
+    # Checklist header must be present
+    - must_include:
+        regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+        message: '# SW-HW Developer Testing Pull Request Review Checklist is missing from PR description'
+
+    # When OK is selected, changes or editing is not allowed
+    - must_include:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s\/\sNA\s\:\s\[enter text here\]'
+        regex_flag: m
+        message: When OK is selected, changes or editing is not allowed
+
+    # Checking when both OK and NOK / NA checks are selected
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[x\]\sNOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Selecting both "OK and NOK/OK" checks are invalid, use any one of the checks
+
+    # Checking when NOK \ NA is selected
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\/\s*NA\s*\:\s\[enter text here\]'
+        regex_flag: m
+        message: When NOK\NA is selected,NOK or NA check should be kept by editing description
+
 # Bot checks when the description is empty or the testing checklist added with heading
 # SW-HW Integration Testing Pull Request Review Checklist'
 version: 2
@@ -116,3 +142,4 @@ mergeable:
         or:
           - *pr-no_checklist-validator-description
           - *pr-checklist-validator-description
+          - *pr-dev-checklist-validator-description
