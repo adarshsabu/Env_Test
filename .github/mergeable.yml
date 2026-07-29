@@ -11,6 +11,9 @@
     - must_exclude:
         regex: '# SW-HW Integration Testing Pull Request Review Checklist'
         message: The '# SW-HW Integration Testing Pull Request Review Checklist' for test case dev
+    - must_exclude:
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist'
+        message: The '# SW-HW Developer Testing Pull Request Review Checklist' for test case dev
 
 .pr-dev-checklist-validator-description: &pr-dev-checklist-validator-description
   do: description
