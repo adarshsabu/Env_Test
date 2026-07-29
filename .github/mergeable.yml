@@ -12,8 +12,102 @@
         regex: '# SW-HW Integration Testing Pull Request Review Checklist'
         message: The '# SW-HW Integration Testing Pull Request Review Checklist' for test case dev
     - must_exclude:
-        regex: '# SW-HW Integration Testing Pull Request Review Checklist'
+        regex: '# SW-HW Developer Testing Pull Request Review Checklist'
         message: The '# SW-HW Developer Testing Pull Request Review Checklist' for test case dev
+
+# Checks if the Description includes # SW-HW Integration Testing Pull Request Review Checklist' AND
+# checks all Regex are satisfied
+.pr-checklist-validator-description: &pr-checklist-validator-description
+  do: description
+  and:
+    # Checking if the description is empty
+    - must_include:
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist'
+        message: '# SW-HW Integration Testing Pull Request Review Checklist'
+    # Checking when both OK and NOK / NA checks are selected
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[x\]\sNOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Selecting both "OK and NOK/OK" checks are invalid, use any one of the checks
+    # Checking when both OK and NOK checks are selected
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Selecting both "OK and NOK" checks are invalid, use any one of the checks
+    # Checking when both OK and NA checks are selected
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[x\]\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Selecting both checks for "OK and NA" is invalid , use any one of the checks
+    # Checking when NOK \ NA is selected
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\/\s*NA\s*\:\s\[enter text here\]'
+        regex_flag: m
+        message: When NOK\NA is selected,NOK or NA check should be kept by editing description
+    # Checking when both OK and NOK / NA  checks are empty
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[ \]\s*NOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Both "OK and NOK / OK" checks should not be empty, Use any one of the checks
+    # Checking When both OK and NOK checks are empty
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[ \]\s*NOK\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Both "OK and NOK" checks should not be empty, Select any one of the checks
+    # Checking When both OK and NA checks are empty
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[ \]\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: Both "OK and NA" checkboxes should not be empty, Select any one of the checks
+    # checking when NOK is selected with default message
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\:\s*\[enter\stext\shere]'
+        regex_flag: m
+        message: when NOK checkbox is selected, default description should be changed
+    # checking when NA is selected with default message
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NA\s*\:\s*\[enter\stext\shere]'
+        regex_flag: m
+        message: when NA checkbox is selected default description should be changed
+    # checking when OK is selected and NA / NOK is changed from default message
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\s*NOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \: \, \-]+$'
+        regex_flag: m
+        message: when OK check is selected do not change NOK/NA including default message
+    # checking when OK is selected and NOK is changed from default message
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: when OK checkbox is selected do not change NOK/NA check including default message
+    # checking when OK is selected and NA is changed from default message
+    - must_exclude:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: when OK checkbox is selected do not change NOK/NA check including default message
+    # checking when NOK / NA is selected with some message
+    - must_exclude:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: when NOK / NA checkbox is selected , keep only NOK or NA with proper message
+  or:
+    # This is for OK only
+    - must_include:
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist'
+        message: '# SW-HW Integration Testing Pull Request Review Checklist'
+    - must_include:
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s\/\sNA\s\:\s\[enter text here\]'
+        regex_flag: m
+        message: When OK is selected, changes or editing is not allowed
+    # This is for NOK with description
+    - must_include:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: When NA / NOK is selected, Use NOK or NA only with description
+    # This is for NA with description
+    - must_include:
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex_flag: m
+        message: When NA / NOK is selected, Use NOK or NA only with description
 
 .pr-dev-checklist-validator-description: &pr-dev-checklist-validator-description
   do: description
@@ -47,4 +141,5 @@ mergeable:
       - do: description
         or:
           - *pr-no_checklist-validator-description
+          - *pr-checklist-validator-description
           - *pr-dev-checklist-validator-description
