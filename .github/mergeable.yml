@@ -17,8 +17,8 @@
   and:
     # Checklist header must be present
     - must_include:
-        regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-        message: '# SW-HW Developer Testing Pull Request Review Checklist is missing from PR description'
+        regex: '# SW-HW mergeable bot test Pull Request Review Checklist'
+        message: '# SW-HW mergeable bot test Pull Request Review Checklist is missing from PR description'
     # When OK is selected, changes or editing is not allowed
     - must_include:
         regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s\/\sNA\s\:\s\[enter text here\]'

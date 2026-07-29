@@ -1,4 +1,4 @@
-# SW-HW Developer Testing Pull Request Review Checklist
+# SW-HW mergeable bot test Pull Request Review Checklist
 
 ## PR reviewed and approved by:
 
