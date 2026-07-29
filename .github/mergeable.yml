@@ -106,6 +106,86 @@
         regex_flag: m
         message: When NA / NOK is selected, Use NOK or NA only with description
 
+.pr-dev-checklist-validator-description: &pr-dev-checklist-validator-description
+  do: description
+  and:
+    # Checklist header must be present
+    - must_include:
+        regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+        message: '# SW-HW Developer Testing Pull Request Review Checklist is missing from PR description'
+
+    # At least one test type or Other must be selected
+    - must_exclude:
+        regex: '^\s*-\s\[\s\]\sRequirements-based test\b[\s\S]*?^\s*-\s\[\s\]\sInterface test\b[\s\S]*?^\s*-\s\[\s\]\sFault injection test\b[\s\S]*?^\s*-\s\[\s\]\sResource usage evaluation test\b[\s\S]*?^\s*-\s\[\s\]\sVerification of the control flow and data flow\b[\s\S]*?^\s*-\s\[\s\]\sOther:\s*\[enter text here\]'
+        regex_flag: m
+        message: Select at least one test type or select Other with a valid description
+
+    # Other should not be selected with default placeholder
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sOther:\s*\[enter text here\]\s*$'
+        regex_flag: m
+        message: When Other is selected, replace "[enter text here]" with valid text
+
+    # Other should not be selected empty
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sOther:\s*$'
+        regex_flag: m
+        message: When Other is selected, provide valid text
+
+    # If a main test type is selected, Other should not also be selected
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\s(?:Requirements-based test|Interface test|Fault injection test|Resource usage evaluation test|Verification of the control flow and data flow)\b[\s\S]*?^\s*-\s\[x\]\sOther:\s*.+$'
+        regex_flag: m
+        message: If a test type is selected, do not select Other
+
+    # Requirements-based test selected but one of its sub-checks is empty
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sRequirements-based test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sInterface test\b'
+        regex_flag: m
+        message: Requirements-based test is selected, so all its sub-checks must be filled
+
+    # Interface test selected but one of its sub-checks is empty
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sInterface test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sFault injection test\b'
+        regex_flag: m
+        message: Interface test is selected, so all its sub-checks must be filled
+
+    # Fault injection test selected but its sub-check is empty
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sFault injection test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sResource usage evaluation test\b'
+        regex_flag: m
+        message: Fault injection test is selected, so its sub-check must be filled
+
+    # Resource usage evaluation test selected but its sub-check is empty
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sResource usage evaluation test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sVerification of the control flow and data flow\b'
+        regex_flag: m
+        message: Resource usage evaluation test is selected, so its sub-check must be filled
+
+    # Verification of control/data flow selected but its sub-check is empty
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sVerification of the control flow and data flow\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sOther:'
+        regex_flag: m
+        message: Verification of the control flow and data flow is selected, so its sub-check must be filled
+
+    # Both OK and NOK / NA should not be selected together
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sOK\s*:\s*\s*-\s\[x\]\sNOK\s*\/\s*NA\s*:\s*.*$'
+        regex_flag: m
+        message: Selecting both OK and NOK / NA is invalid. Select only one
+
+    # NOK / NA selected but default text is not changed
+    - must_exclude:
+        regex: '^\s*-\s\[\s\]\sOK\s*:\s*\s*-\s\[x\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\]'
+        regex_flag: m
+        message: When NOK / NA is selected, replace "[enter text here]" with valid text
+
+    # OK selected but NOK / NA text was edited
+    - must_exclude:
+        regex: '^\s*-\s\[x\]\sOK\s*:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*(?!\[enter text here\]).+$'
+        regex_flag: m
+        message: When OK is selected, do not edit the NOK / NA default text
+
 # Bot checks when the description is empty or the testing checklist added with heading
 # SW-HW Integration Testing Pull Request Review Checklist'
 version: 2
@@ -116,3 +196,4 @@ mergeable:
         or:
           - *pr-no_checklist-validator-description
           - *pr-checklist-validator-description
+          - *pr-dev-checklist-validator-description
