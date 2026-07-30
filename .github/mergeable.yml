@@ -188,8 +188,8 @@ mergeable:
         validate:
           - do: description
             must_exclude:
-			  regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-			  regex_flag: m
+              regex: '# SW-HW Integration Testing Pull Request Review Checklist'
+              regex_flag: m
           - *pr-checklist-validator-description
   - when: pull_request.*
     name: Developer Checklist Validation
@@ -198,8 +198,8 @@ mergeable:
         validate:
           - do: description
             must_exclude:
-			  regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-			  regex_flag: m
+              regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+              regex_flag: m
           - *pr-dev-checklist-validator-description
   - when: pull_request.*
     name: Standard PR Description Validation
@@ -207,10 +207,9 @@ mergeable:
       - do: or
         validate:
           - do: description
-		  	must_include:
+            must_include:
               regex:
                 - '# SW-HW Integration Testing Pull Request Review Checklist'
                 - '# SW-HW Developer Testing Pull Request Review Checklist'
               regex_flag: m
           - *pr-no_checklist-validator-description
-          
