@@ -190,46 +190,19 @@
 # SW-HW Integration Testing Pull Request Review Checklist'
 version: 2
 mergeable:
-  # ---------------------------------------------------------
-  # Integration checklist validation
-  # Runs only when Integration checklist header is present
-  # ---------------------------------------------------------
   - when: pull_request.*
-    name: Integration checklist validation
-    filter:
-      - do: description
-        must_include:
-          regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-          regex_flag: m
     validate:
-          - *pr-checklist-validator-description
-  # ---------------------------------------------------------
-  # Developer checklist validation
-  # Runs only when Developer checklist header is present
-  # ---------------------------------------------------------
-  - when: pull_request.*
-    name: Developer checklist validation
-    filter:
       - do: description
-        must_include:
-          regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-          regex_flag: m
-    validate:
-      - *pr-dev-checklist-validator-description
-  # ---------------------------------------------------------
-  # No checklist / normal description validation
-  # Runs when neither checklist header is present
-  # ---------------------------------------------------------
-  - when: pull_request.*
-    name: PR description validation
-    filter:
-      - do: description
-        must_exclude:
-          regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-          regex_flag: m
-      - do: description
-        must_exclude:
-          regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-          regex_flag: m
-    validate:
-      - *pr-no_checklist-validator-description
+        or:
+          - and:
+              - must_include:
+                  regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+                  regex_flag: m
+              - *pr-checklist-validator-description
+          - and:
+              - must_include:
+                  regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+                  regex_flag: m
+              - *pr-dev-checklist-validator-description
+          - *pr-no_checklist-validator-description
+          
