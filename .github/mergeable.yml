@@ -182,18 +182,35 @@
 version: 2
 mergeable:
   - when: pull_request.*
+    name: Integration Checklist Validation
     validate:
-      - do: description
-        or:
-          - and:
-              - must_include:
-                  regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-                  regex_flag: m
-              - *pr-checklist-validator-description
-          - and:
-              - must_include:
-                  regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-                  regex_flag: m
-              - *pr-dev-checklist-validator-description
+      - do: or
+        validate:
+          - do: description
+            must_exclude:
+      			  regex: '# SW-HW Integration Testing Pull Request Review Checklist'
+      			  regex_flag: m
+          - *pr-checklist-validator-description
+  - when: pull_request.*
+    name: Developer Checklist Validation
+    validate:
+      - do: or
+        validate:
+          - do: description
+            must_exclude:
+      			  regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+      			  regex_flag: m
+          - *pr-dev-checklist-validator-description
+  - when: pull_request.*
+    name: Standard PR Description Validation
+    validate:
+      - do: or
+        validate:
+          - do: description
+			      must_include:
+              regex:
+                - '# SW-HW Integration Testing Pull Request Review Checklist'
+                - '# SW-HW Developer Testing Pull Request Review Checklist'
+              regex_flag: m
           - *pr-no_checklist-validator-description
           
