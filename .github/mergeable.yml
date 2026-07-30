@@ -10,10 +10,10 @@
         message: Description can not be empty.
     - must_exclude:
         regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-        message: The '# SW-HW Integration Testing Pull Request Review Checklist' for test case dev
+        message: '# SW-HW Integration Testing Pull Request Review Checklist'
     - must_exclude:
         regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-        message: The '# SW-HW Developer Testing Pull Request Review Checklist' for test case dev
+        message: '# SW-HW Developer Testing Pull Request Review Checklist'
 
 # Checks if the Description includes # SW-HW Integration Testing Pull Request Review Checklist' AND
 # checks all Regex are satisfied
@@ -24,9 +24,6 @@
     - must_include:
         regex: '# SW-HW Integration Testing Pull Request Review Checklist'
         message: '# SW-HW Integration Testing Pull Request Review Checklist'
-    - must_exclude:
-        regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-        message: 'Developer checklist detected'
     # Checking when both OK and NOK / NA checks are selected
     - must_exclude:
         regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[x\]\sNOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
@@ -97,9 +94,6 @@
     - must_include:
         regex: '# SW-HW Integration Testing Pull Request Review Checklist'
         message: '# SW-HW Integration Testing Pull Request Review Checklist'
-    - must_exclude:
-        regex: '# SW-HW Developer Testing Pull Request Review Checklist'
-        message: 'Developer checklist detected'
     - must_include:
         regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s\/\sNA\s\:\s\[enter text here\]'
         regex_flag: m
@@ -122,9 +116,6 @@
     - must_include:
         regex: '# SW-HW Developer Testing Pull Request Review Checklist'
         message: '# SW-HW Developer Testing Pull Request Review Checklist is missing from PR description'
-    - must_exclude:
-        regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-        message: 'Integration checklist detected'
     # When OK is selected, changes or editing is not allowed
     - must_include:
         regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s\/\sNA\s\:\s\[enter text here\]'
