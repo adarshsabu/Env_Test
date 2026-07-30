@@ -193,7 +193,7 @@ mergeable:
           - *pr-checklist-validator-description
     fail:
       - do: checks
-        status: action_required
+        status: failure
         payload:
           title: 'SW-HW Integration Testing Pull Request Review Checklist FAILED ❌'
           summary: |
@@ -213,7 +213,7 @@ mergeable:
           - *pr-dev-checklist-validator-description
     fail:
       - do: checks
-        status: action_required
+        status: failure
         payload:
           title: 'SW-HW Developer Testing Pull Request Review Checklist FAILED ❌'
           summary: |
