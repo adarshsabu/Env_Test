@@ -191,6 +191,16 @@ mergeable:
               regex: '# SW-HW Integration Testing Pull Request Review Checklist'
               regex_flag: m
           - *pr-checklist-validator-description
+    fail:
+      - do: checks
+        status: action_required
+        payload:
+          title: 'SW-HW Integration Testing Pull Request Review Checklist FAILED ❌'
+          summary: |
+            How to Fix:
+              - Select exactly ONE option - either "OK" OR "NOK / NA".
+              - If "NOK / NA" is selected replace "[enter text here]" with a valid reason why is it selected.
+              - Do not modify default place holder text "[enter text here]" if "NOK / NA" is not selected.
   - when: pull_request.*
     name: Developer Checklist Validation
     validate:
@@ -201,6 +211,23 @@ mergeable:
               regex: '# SW-HW Developer Testing Pull Request Review Checklist'
               regex_flag: m
           - *pr-dev-checklist-validator-description
+    fail:
+      - do: checks
+        status: action_required
+        payload:
+          title: 'SW-HW Developer Testing Pull Request Review Checklist FAILED ❌'
+          summary: |
+            How to Fix:
+              - Select exactly ONE option - either "OK" OR "NOK / NA".
+              - If "NOK / NA" is selected replace "[enter text here]" with a valid reason why is it selected.
+              - Do not modify default place holder text "[enter text here]" if "NOK / NA" is not selected.
+              - For checklist 4 select one type of test from below list:
+                - Requirements-based test
+                - Interface test
+                - Fault injection test
+                - Resource usage evaluation test
+                - Verification of the control flow and data flow
+              - If your test does not fall under any of above list select option "Other" and fill in a valid reason.
   - when: pull_request.*
     name: Standard PR Description Validation
     validate:
