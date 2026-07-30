@@ -196,7 +196,7 @@ mergeable:
         or:
           - and:
               - must_include:
-                  regex: '# SW-HW Developer Testing Pull Request Review Checklist'
+                  regex: '# SW-HW Integration Testing Pull Request Review Checklist'
                   regex_flag: m
               - *pr-checklist-validator-description
           - and:
