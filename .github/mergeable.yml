@@ -202,12 +202,12 @@ mergeable:
               - If "NOK / NA" is selected replace "[enter text here]" with a valid reason why is it selected.
               - Do not modify default place holder text "[enter text here]" if "NOK / NA" is not selected.
           text: "{{#each validationSuites}}\n
-                    #### {{{statusIcon status}}} Validator: {{toUpperCase name}}\n
-                    {{#each validations }} * {{{statusIcon status}}} ***{{{ description }}}***\n
-                           Input : {{{details.input}}}\n
-                           Settings : {{{displaySettings details.settings}}}\n
-                           {{/each}}\n
-                    {{/each}}"
+                #### {{{statusIcon status}}} Validator: {{toUpperCase name}}\n
+                {{#each validations }} * {{{statusIcon status}}} ***{{{ description }}}***\n
+                       Input : {{{details.input}}}\n
+                       Settings : {{{displaySettings details.settings}}}\n
+                       {{/each}}\n
+                {{/each}}"
   - when: pull_request.*
     name: Developer Checklist Validation
     validate:
