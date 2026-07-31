@@ -76,17 +76,17 @@
         message: when OK check is selected do not change NOK/NA including default message
     # checking when OK is selected and NOK is changed from default message
     - must_exclude:
-        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s*\:\s*[a-z A-Z \d \D]+$'
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s*\:\s*$'
         regex_flag: m
         message: when OK checkbox is selected do not change NOK/NA check including default message
     # checking when OK is selected and NA is changed from default message
     - must_exclude:
-        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNA\s*\:\s*$'
         regex_flag: m
         message: when OK checkbox is selected do not change NOK/NA check including default message
     # checking when NOK / NA is selected with some message
     - must_exclude:
-        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\/\s*NA\s*\:\s*$'
         regex_flag: m
         message: when NOK / NA checkbox is selected , keep only NOK or NA with proper message
   or:
