@@ -240,3 +240,11 @@ mergeable:
                 - '# SW-HW Developer Testing Pull Request Review Checklist'
               regex_flag: m
           - *pr-no_checklist-validator-description
+    fail:
+      - do: checks
+        status: failure
+        payload:
+          title: 'Your pull request description is empty'
+          summary: |
+            How to Fix:
+              - Add Issue number or description about your fix
