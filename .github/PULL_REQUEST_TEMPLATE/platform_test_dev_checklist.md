@@ -56,4 +56,5 @@
       - [ ] OK:
       - [ ] NOK / NA : [enter text here]
   
+<!-- END_INTEGRATION_CHECKLIST -->
 ---

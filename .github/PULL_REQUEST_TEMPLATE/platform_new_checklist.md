@@ -1,4 +1,4 @@
-# SW-HW Developer Testing Pull Request Review Checklist
+# Test case (UT, SCTF, ITF dev) Pull Request Review Checklist
 
 ## PR reviewed and approved by:
 
@@ -51,6 +51,6 @@
       1. Does the test case verify the integrity of the control flow - this can enclose the order of function calls, instructions and statements as well as the amount of time for the individual steps OR of the data flow during the communication across SW Components tested?
          - [ ] OK:
          - [ ] NOK / NA : [enter text here]
-   - [ ] Other: [enter text here]
 
+<!-- END_DEVELOPER_CHECKLIST -->
 ---
