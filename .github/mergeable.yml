@@ -49,6 +49,11 @@
         regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
         regex_flag: m
         message: 'When OK is selected, no changes should be made to the default text.'
+    # Valid OK selection without default test
+    - must_exclude:
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s*\]\s*NOK\s*\/\s*NA\s*:\s*(?!\[enter text here\])[^\r\n]+'
+        regex_flag: m
+        message: 'When OK is selected, no changes should be made to the default text.'
 
 .pr-dev-checklist-validator-description: &pr-dev-checklist-validator-description
   do: description
@@ -59,20 +64,25 @@
         message: '# Test case (UT, SCTF, ITF dev) Pull Request Review Checklist is missing from PR description'
     # When OK is selected, changes or editing is not allowed
     - must_include:
-        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[\s\]\sNOK\s\/\sNA\s\:\s\[enter text here\]'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
         regex_flag: m
-        message: When OK is selected, changes or editing is not allowed
+        message: 'When OK is selected, no changes should be made to the default text.'
     # Checking when both OK and NOK / NA checks are selected
     - must_exclude:
-        regex: '^\s+\-\s\[x\]\sOK\s*\:\s+\-\s\[x\]\sNOK\s*\/\s*NA\s*\:\s*[a-z A-Z \d \D]+$'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*[^\r\n]*'
         regex_flag: m
-        message: Selecting both "OK and NOK/OK" checks are invalid, use any one of the checks
+        message: 'Selecting both "OK" and "NOK/NA" checks is invalid. Use only one of the checks.'
     # Checking when NOK \ NA is selected
     - must_exclude:
-        regex: '^\s+\-\s\[ \]\sOK\s*\:\s+\-\s\[x\]\s*NOK\s*\/\s*NA\s*\:\s\[enter text here\]'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[\s\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
         regex_flag: m
-        message: When NOK\NA is selected,NOK or NA check should be kept by editing description
-    # At least one test type or Other must be selected
+        message: 'When NOK/NA is selected, replace the placeholder text with a proper reason.'
+    # NOK/NA selected but no comment provided
+    - must_exclude:
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[\s\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*$'
+        regex_flag: m
+        message: 'When NOK/NA is selected, please provide a reason.'
+    # At least one test type must be selected
     - must_exclude:
         regex: '^\s*-\s\[\s\]\sRequirements-based test\b[\s\S]*?^\s*-\s\[\s\]\sInterface test\b[\s\S]*?^\s*-\s\[\s\]\sFault injection test\b[\s\S]*?^\s*-\s\[\s\]\sResource usage evaluation test\b[\s\S]*?^\s*-\s\[\s\]\sVerification of the control flow and data flow\b[\s\S]*?^\s*-\s\[\s\]\s'
         regex_flag: m
