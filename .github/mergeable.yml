@@ -26,29 +26,29 @@
         message: '# SW-HW Integration Testing Pull Request Review Checklist'
     # Checking when both OK and NOK / NA checks are selected
     - must_exclude:
-        regex: '(?s)# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->).)*-\s\[x\]\sOK\s*:\s*-\s\[x\]\sNOK\s*/\s*NA\s*:\s*[^\n]*'
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*[^\r\n]*'
         regex_flag: m
-        message: Selecting both "OK and NOK/OK" checks are invalid, use any one of the checks
+        message: 'Selecting both "OK" and "NOK/NA" checks is invalid. Use only one of the checks.'
     # NOK/NA selected but default text not updated
     - must_exclude:
-        regex: '(?s)# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->).)*-\s\[\s\]\sOK\s*:\s*-\s\[x\]\sNOK\s*/\s*NA\s*:\s*\[enter text here\]'
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[\s\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
         regex_flag: m
-        message: When NOK/NA is selected, replace the placeholder text with a proper reason.
+        message: 'When NOK/NA is selected, replace the placeholder text with a proper reason.'
     # Neither OK nor NOK/NA selected
     - must_exclude:
-        regex: '(?s)# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->).)*-\s\[\s\]\sOK\s*:\s*-\s\[\s\]\sNOK\s*/\s*NA\s*:\s*[^\n]*'
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[\s\]\s*OK\s*:\s*-\s*\[\s\]\s*NOK\s*\/\s*NA\s*:\s*[^\r\n]*'
         regex_flag: m
         message: 'Either OK or NOK/NA must be selected.'
     # NOK/NA selected but no comment provided
     - must_exclude:
-        regex: '(?s)# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->).)*-\s\[\s\]\sOK\s*:\s*-\s\[x\]\sNOK\s*/\s*NA\s*:\s*$'
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[\s\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*$'
         regex_flag: m
-        message: when NOK / NA checkbox is selected , keep only NOK or NA with proper message
+        message: 'When NOK/NA is selected, please provide a reason.'
     # Valid OK selection
     - must_include:
-        regex: '(?s)# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->).)*-\s\[x\]\sOK\s*:\s*-\s\[\s\]\sNOK\s*/\s*NA\s*:\s*\[enter text here\]'
+        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
         regex_flag: m
-        message: When OK is selected, no changes should be made to the default text.
+        message: 'When OK is selected, no changes should be made to the default text.'
 
 .pr-dev-checklist-validator-description: &pr-dev-checklist-validator-description
   do: description
