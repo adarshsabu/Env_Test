@@ -1,20 +1,3 @@
-# Checks if the description is empty then fails, users need to add some description in the PR AND
-# Checks if it is not included the headings  '# SW-HW Integration Testing Pull Request
-# Review Checklist'
-.pr-no_checklist-validator-description: &pr-no_checklist-validator-description
-  do: description
-  and:
-    # Checking if the description is empty
-    - no_empty:
-        enabled: true
-        message: Description can not be empty.
-    - must_exclude:
-        regex: '# SW-HW Integration Testing Pull Request Review Checklist'
-        message: '# SW-HW Integration Testing Pull Request Review Checklist'
-    - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist'
-        message: '# Test case (UT, SCTF, ITF dev) Pull Request Review Checklist'
-
 # Checks if the Description includes # SW-HW Integration Testing Pull Request Review Checklist' AND
 # checks all Regex are satisfied
 .pr-checklist-validator-description: &pr-checklist-validator-description
@@ -178,23 +161,3 @@ mergeable:
                        Settings : {{{displaySettings details.settings}}}\n
                        {{/each}}\n
                 {{/each}}"
-  - when: pull_request.*
-    name: Standard PR Description Validation
-    validate:
-      - do: or
-        validate:
-          - do: description
-            must_include:
-              regex:
-                - '# SW-HW Integration Testing Pull Request Review Checklist'
-                - '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist'
-              regex_flag: m
-          - *pr-no_checklist-validator-description
-    fail:
-      - do: checks
-        status: failure
-        payload:
-          title: 'Your pull request description is empty'
-          summary: |
-            How to Fix:
-              - Add Issue number or description about your fix
