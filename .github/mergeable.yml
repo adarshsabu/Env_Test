@@ -44,11 +44,6 @@
         regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[\s\]\s*OK\s*:\s*-\s*\[x\]\s*NOK\s*\/\s*NA\s*:\s*$'
         regex_flag: m
         message: 'When NOK/NA is selected, please provide a reason.'
-    # Valid OK selection
-    - must_include:
-        regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
-        regex_flag: m
-        message: 'When OK is selected, no changes should be made to the default text.'
     # Valid OK selection without default test
     - must_exclude:
         regex: '# SW-HW Integration Testing Pull Request Review Checklist(?:(?!<!-- END_INTEGRATION_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s*\]\s*NOK\s*\/\s*NA\s*:\s*(?!\[enter text here\])[^\r\n]+'
