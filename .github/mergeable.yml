@@ -58,8 +58,8 @@
         regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist'
         message: '# Test case (UT, SCTF, ITF dev) Pull Request Review Checklist is missing from PR description'
     # When OK is selected, changes or editing is not allowed
-    - must_include:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*-\s*\[\s\]\s*NOK\s*\/\s*NA\s*:\s*\[enter text here\]'
+    - must_exclude:
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*OK\s*:\s*\r?\n\s*-\s*\[\s*\]\s*NOK\s*\/\s*NA\s*:\s*(?!\s*\[enter text here\]\s*$)(?!\s*$)[^\r\n]+'
         regex_flag: m
         message: 'When OK is selected, no changes should be made to the default text.'
     # Checking when both OK and NOK / NA checks are selected
@@ -82,34 +82,34 @@
         regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[\s\]\sRequirements-based test\b[\s\S]*?^\s*-\s\[\s\]\sInterface test\b[\s\S]*?^\s*-\s\[\s\]\sFault injection test\b[\s\S]*?^\s*-\s\[\s\]\sResource usage evaluation test\b[\s\S]*?^\s*-\s\[\s\]\sVerification of the control flow and data flow\b[\s\S]*?^\s*-\s\[\s\]\s'
         regex_flag: m
         message: Select at least one test type.
-    # If a main test type is selected, Other should not also be selected
+    # Only one test type may be selected.
     - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\s(?:Requirements-based test|Interface test|Fault injection test|Resource usage evaluation test|Verification of the control flow and data flow)\b[\s\S]*?^\s*-\s'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s*\[x\]\s*(?:Requirements-based test|Interface test|Fault injection test|Resource usage evaluation test|Verification of the control flow and data flow)[\s\S]*?-\s*\[x\]\s*(?:Requirements-based test|Interface test|Fault injection test|Resource usage evaluation test|Verification of the control flow and data flow)'
         regex_flag: m
-        message: If a test type is selected, do not select Other
+        message: Only one test type may be selected.
     # Requirements-based test selected but one of its sub-checks is empty
     - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sRequirements-based test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sInterface test\b'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sRequirements-based test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[\s\]\sInterface test\b'
         regex_flag: m
         message: Requirements-based test is selected, so all its sub-checks must be filled
     # Interface test selected but one of its sub-checks is empty
     - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sInterface test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sFault injection test\b'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sInterface test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[\s\]\sFault injection test\b'
         regex_flag: m
         message: Interface test is selected, so all its sub-checks must be filled
     # Fault injection test selected but its sub-check is empty
     - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sFault injection test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sResource usage evaluation test\b'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sFault injection test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[\s\]\sResource usage evaluation test\b'
         regex_flag: m
         message: Fault injection test is selected, so its sub-check must be filled
     # Resource usage evaluation test selected but its sub-check is empty
     - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sResource usage evaluation test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\sVerification of the control flow and data flow\b'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sResource usage evaluation test\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[\s\]\sVerification of the control flow and data flow\b'
         regex_flag: m
         message: Resource usage evaluation test is selected, so its sub-check must be filled
     # Verification of control/data flow selected but its sub-check is empty
     - must_exclude:
-        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sVerification of the control flow and data flow\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*-\s\[[ x]\]\s'
+        regex: '# Test case \(UT, SCTF, ITF dev\) Pull Request Review Checklist(?:(?!<!-- END_DEVELOPER_CHECKLIST -->)[\s\S])*?-\s\[x\]\sVerification of the control flow and data flow\b[\s\S]*?^\s*-\s\[\s\]\sOK:\s*\s*-\s\[\s\]\sNOK\s*\/\s*NA\s*:\s*\[enter text here\][\s\S]*?^\s*'
         regex_flag: m
         message: Verification of the control flow and data flow is selected, so its sub-check must be filled
 
