@@ -106,6 +106,15 @@ mergeable:
         no_empty:
           enabled: true
           message: Description can not be empty.
+    fail:
+      - do: checks
+        status: failure
+        payload:
+          title: 'Description can not be empty'
+          summary: |
+            How to Fix:
+              - Add Jira ticket to the description. Eg: "Issue: ABC-1234".
+              - Add a brief one liner about the change.
           
   - when: pull_request.*
     name: Integration Checklist Validation
