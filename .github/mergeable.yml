@@ -104,8 +104,8 @@ mergeable:
     validate:
       - do: description
         no_empty:
-        enabled: true
-        message: Description can not be empty.
+          enabled: true
+          message: Description can not be empty.
           
   - when: pull_request.*
     name: Integration Checklist Validation
